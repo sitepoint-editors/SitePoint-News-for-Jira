@@ -1,53 +1,40 @@
 {
-    "key": "sp-news",
-    "name": "SitePoint News Feed",
-    "description": "Shows the latest news from SitePoint.com",
-    "vendor": {
-        "name": "SitePoint Pty Ltd",
-        "url": "https://sitepoint.com"
-    },
-    "baseUrl": "https://03347486.ngrok.io",
-    "links": {
-        "self": "{{localBaseUrl}}/atlassian-connect.json",
-        "homepage": "{{localBaseUrl}}/atlassian-connect.json"
-    },
-    "authentication": {
-        "type": "jwt"
-    },
-    "lifecycle": {
-        // atlassian-connect-express expects this route to be configured to manage the installation handshake
-        "installed": "/installed"
-    },
-    "scopes": [
-        "READ"
-    ],
-    "modules": {
-        "generalPages": [
-
-            // JIRA - Add a Hello World menu item to the navigation bar
-            {
-                "key": "news-feed-page-jira",
-                "location": "system.top.navigation.bar",
-                "name": {
-                    "value": "News Feed"
-                },
-                "url": "/news-feed",
-                "conditions": [{
-                    "condition": "user_is_logged_in"
-                }]
-            },
-
-            // Confluence - Add a Hello World menu item to the navigation bar
-            {
-                "key": "hello-world-page-confluence",
-                "location": "system.header/left",
-                "name": {
-                    "value": "Hello World"
-                },
-                "url": "/hello-world",
-                "conditions": [{
-                    "condition": "user_is_logged_in"
-            }]
-        }]
-    }
+  "key": "sp-news",
+  "name": "SitePoint News Feed",
+  "description": "Shows the latest news from SitePoint.com",
+  "vendor": {
+    "name": "SitePoint Pty Ltd",
+    "url": "https://sitepoint.com"
+  },
+  "baseUrl": "https://c23cd509.ngrok.io",
+  "links": {
+    "self": "{{localBaseUrl}}/atlassian-connect.json",
+    "homepage": "{{localBaseUrl}}/atlassian-connect.json"
+  },
+  "authentication": {
+    "type": "jwt"
+  },
+  "lifecycle": {
+    "installed": "/installed"
+  },
+  "scopes": [
+    "READ"
+  ],
+  "modules": {
+    "generalPages": [
+      {
+        "key": "news-feed-page-jira",
+        "location": "system.top.navigation.bar",
+        "name": {
+          "value": "News Feed"
+        },
+        "url": "/news-feed",
+        "conditions": [
+          {
+            "condition": "user_is_logged_in"
+          }
+        ]
+      }
+    ]
+  }
 }

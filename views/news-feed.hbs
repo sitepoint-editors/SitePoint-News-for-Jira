@@ -2,9 +2,7 @@
 <header class="aui-page-header">
     <div class="aui-page-header-inner">
         <div class="aui-page-header-main intro-header">
-            <h1>News Feed</h1>
-
-            <p class="subtitle">Welcome to {{title}}</p>
+            <h1>{{title}}</h1>
         </div>
     </div>
 </header>
@@ -16,7 +14,7 @@
                 <div class="aui-item">
                     <ul>
                         {{#each newsitems}}
-                            <li>i - </li>
+                            <li><a href="{{ link }}">{{ title }}</a></li>
                         {{/each}}
                     </ul>
                 </div>

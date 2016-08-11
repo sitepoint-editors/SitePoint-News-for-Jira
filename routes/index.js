@@ -21,45 +21,48 @@ module.exports = function (app, addon) {
     app.get('/news-feed', addon.authenticate(), function (req, res) {
             // Rendering a template is easy; the `render()` method takes two params: name of template
             // and a json object to pass the context in
-        var FeedParser = require('feedparser'), request = require('request');
-        var newsItems = {
-            newsitems: []
-        };
+            var FeedParser = require('feedparser'), request = require('request');
+            var newsItems = {
+                newsitems: []
+            };
 
-        var req = request('https://www.sitepoint.com/feed'), feedparser = new FeedParser();
+            var req = request('https://www.sitepoint.com/feed'), feedparser = new FeedParser();
 
-        req.on('error', function (error) {
-            // handle any request errors
-        });
-        req.on('response', function (res) {
-            var stream = this;
-
-            if (res.statusCode != 200) return this.emit('error', new Error('Bad status code'));
-            stream.pipe(feedparser);
-        });
-
-        feedparser.on('error', function(error) {
-            // always handle errors
-        });
-        feedparser.on('readable', function() {
-            // This is where the action is!
-            var stream = this
-                , meta = this.meta // **NOTE** the "meta" is always available in the context of the feedparser instance
-                , item;
-
-            while (item = stream.read()) {
-                newsItems.newsitems.push({
-                    'title': item.title,
-                    'link': item.link
-                });
-            }
-            console.log(newsItems.newsitems);
-        });
-
-            res.render('news-feed', {
-                title: 'Latest SitePoint News',
-                newsitems: newsItems.newsitems
+            req.on('error', function (error) {
+                // handle any request errors
             });
+            req.on('response', function (res) {
+                var stream = this;
+
+                if (res.statusCode != 200) return this.emit('error', new Error('Bad status code'));
+                stream.pipe(feedparser);
+            });
+
+            feedparser.on('error', function (error) {
+                // always handle errors
+            });
+            feedparser.on('readable', function () {
+                // This is where the action is!
+                var stream = this
+                    , meta = this.meta // **NOTE** the "meta" is always available in the context of the feedparser instance
+                    , item;
+
+                while (item = stream.read()) {
+                    newsItems.newsitems.push({
+                        'title': item.title,
+                        'link': item.link
+                    });
+                }
+                console.log(newsItems.newsitems);
+            });
+
+            feedparser.on('end', function () {
+                res.render('news-feed', {
+                    title: 'Latest SitePoint News',
+                    newsitems: newsItems.newsitems
+                });
+            });
+
         }
     );
 
@@ -70,7 +73,7 @@ module.exports = function (app, addon) {
         var fs = require('fs');
         var path = require('path');
         var files = fs.readdirSync("routes");
-        for(var index in files) {
+        for (var index in files) {
             var file = files[index];
             if (file === "index.js") continue;
             // skip non-javascript files
